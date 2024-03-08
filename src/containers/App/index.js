@@ -22,20 +22,19 @@ function App() {
     <>
       <main className="app">
         <ul>
+          <div className="bg-gray-100 p-4 rounded-sm shadow-xs">
+            <h1 className="text-blue-500 font-bold">Курс валют згідно НБУ</h1>
+          </div>
           {loading && <Loader />}
           {data.map((item) => (
-            <div className="p-4">
-              <p className="text-orange-500">{item.rate}</p>
-              <p className="text-orange-500">{item.cc}</p>
-              <p className="text-orange-500">{item.txt}</p>
-              <hr />
+            <div className="py-2 border-b">
+              <p className="text-blue-500">{item.txt}</p>
+              <p className="text-yellow-500">
+                {item.rate.toFixed(2)}грн. - {item.cc}
+              </p>
             </div>
           ))}
         </ul>
-        <div className="bg-gray-200 p-4 rounded-lg shadow-md">
-          <p className="text-blue-500 font-bold">Hello, Tailwind CSS!</p>
-        </div>
-        <button className="text-red-500 bg-cyan-600 p-6">HaAA</button>
       </main>
     </>
   );
