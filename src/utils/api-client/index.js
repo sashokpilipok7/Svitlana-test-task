@@ -5,6 +5,8 @@ export const RESPONSE_STATUSES = {
 export class ApiClient {
   constructor() {
     this.baseUrl = process.env.API_URL;
+    this.baseUrl =
+      "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json";
   }
 
   _request({ method, url, data, config = {} }) {
@@ -31,7 +33,7 @@ export class ApiClient {
           }
         })
         .catch((err) => {
-          toast.error(err);
+          //   toast.error(err);
           reject(err);
         });
     });
