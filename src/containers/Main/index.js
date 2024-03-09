@@ -32,22 +32,38 @@ function MainPage() {
     return data.slice(startIndex, endIndex);
   }, [page, data]);
   const allPagesCount = useMemo(() => {
-    return Math.trunc(data?.length / ITEMS_PER_PAGE);
+    return Math.ceil(data?.length / ITEMS_PER_PAGE);
   }, [page, data]);
+
+  function onNext() {
+    if (page !== allPagesCount) {
+      setPage(page + 1);
+    }
+  }
+
+  function onPrev() {
+    if (page !== 1) {
+      setPage(page - 1);
+    }
+  }
+
+  function onSpecificPage(pageNumber) {
+    setPage(pageNumber);
+  }
 
   console.log(filteredData, "filteredData");
   return (
     <Layout>
-      <main className="text-center">
+      <main className="text-center pb-10">
         <ul>
           <div className="">
-            <h1 className="text-xl text-yellow-500 font-semibold">
+            <h1 className="text-2xl md:text-3xl text-yellow-500 font-semibold">
               Курс валют НБУ
             </h1>
           </div>
           {loading && <Loader />}
           <div className="flex flex-wrap items-center py-8">
-            {filteredData.map(({ r030, txt, cc, rate }) => (
+            {filteredData.map(({ r030, txt, rate }) => (
               <Link
                 key={r030}
                 to={`/currency/${r030}`}
@@ -55,7 +71,7 @@ function MainPage() {
               >
                 <p className="text-blue-500 font-semibold">{txt}</p>
                 <p className="text-yellow-500 font-bold">
-                  {rate.toFixed(2)}грн. - {cc}
+                  {rate.toFixed(2)}грн.
                 </p>
               </Link>
             ))}
@@ -65,6 +81,9 @@ function MainPage() {
           currentPage={page}
           allPages={allPagesCount}
           allDataLength={data?.length}
+          onNext={onNext}
+          onPrev={onPrev}
+          onSpecificPage={onSpecificPage}
         />
       </main>
     </Layout>
