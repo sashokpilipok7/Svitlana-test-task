@@ -1,47 +1,31 @@
-import { Suspense, useState, useTransition } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import MainPage from "../Main/index.js";
+
 import Layout from "../../components/Layout/index.js";
 import Loader from "../../components/Loader/index.js";
 
 // FIXME: REMOVE TO SEPERATE CONTAINER
 function SearchPage() {
-  return <div>Search smth</div>;
+  return <div>Search Page</div>;
+}
+
+function ChangedCurrencyPage() {
+  return <div>ChangedCurrency Page</div>;
+}
+
+function CurrencyPage() {
+  return <div>Currency Page</div>;
 }
 
 export default function App() {
   return (
-    <Suspense fallback={<Loader />}>
-      <Router />
-    </Suspense>
-  );
-}
-
-function Router() {
-  const [page, setPage] = useState("/");
-  const [isPending, startTransition] = useTransition();
-
-  function navigate(url) {
-    startTransition(() => {
-      setPage(url);
-    });
-  }
-
-  let content;
-  if (page === "/") {
-    content = <MainPage navigate={navigate} />;
-  } else if (page === "/search") {
-    content = (
-      <SearchPage
-        artist={{
-          id: "the-beatles",
-          name: "The Beatles",
-        }}
-      />
-    );
-  }
-  return (
-    <Layout isPending={isPending} navigate={navigate}>
-      {content}
-    </Layout>
+    <Router>
+      <Routes>
+        <Route exact path="/" element={<MainPage />} />
+        <Route path="/search" element={<SearchPage />} />
+        <Route path="/changed" element={<ChangedCurrencyPage />} />
+        <Route path="/currency/:id" element={<CurrencyPage />} />
+      </Routes>
+    </Router>
   );
 }
