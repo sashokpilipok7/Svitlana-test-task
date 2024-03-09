@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState, useMemo } from "react";
+import { Link, useLocation } from "react-router-dom";
 
+import { ITEMS_PER_PAGE } from "../../constants";
+import { getQuery } from "../../utils/get-query";
 import ApiClient from "../../utils/api-client";
 import Loader from "../../components/Loader";
 import Layout from "../../components/Layout";
@@ -19,26 +21,40 @@ function MainPage() {
     }
     getData();
   }, []);
+
+  const location = useLocation();
+  const [page, setPage] = useState(getQuery(location, "page") || 1);
+
+  const filteredData = useMemo(() => {
+    const startIndex = (page - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+    debugger;
+    return data.slice(startIndex, endIndex);
+  }, [page, data]);
+
+  console.log(filteredData, "filteredData");
   return (
     <Layout>
       <main className=" text-center">
         <ul>
-          <div className="bg-gray-100 p-4 rounded-sm shadow-xs">
-            <h1 className="text-blue-500 font-bold">Курс валют згідно НБУ</h1>
+          <div className="">
+            <h1 className="text-xl text-grey-500">Курс валют НБУ</h1>
           </div>
           {loading && <Loader />}
-          {data.map(({ r030, txt, cc, rate }) => (
-            <Link
-              key={r030}
-              to={`/currency/${r030}`}
-              className="block py-2 border-b"
-            >
-              <p className="text-blue-500">{txt}</p>
-              <p className="text-yellow-500">
-                {rate.toFixed(2)}грн. - {cc}
-              </p>
-            </Link>
-          ))}
+          <div>
+            {filteredData.map(({ r030, txt, cc, rate }) => (
+              <Link
+                key={r030}
+                to={`/currency/${r030}`}
+                className="block py-2 border-b"
+              >
+                <p className="text-blue-500">{txt}</p>
+                <p className="text-yellow-500">
+                  {rate.toFixed(2)}грн. - {cc}
+                </p>
+              </Link>
+            ))}
+          </div>
         </ul>
       </main>
     </Layout>
