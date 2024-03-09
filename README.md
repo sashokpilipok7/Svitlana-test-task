@@ -1,7 +1,5 @@
 # NBY SPA project
 
-This project was bootstrapped with [Create React App]
-
 ## Available Scripts
 
 ### `npm start`
