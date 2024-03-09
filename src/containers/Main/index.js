@@ -6,6 +6,7 @@ import { getQuery } from "../../utils/get-query";
 import ApiClient from "../../utils/api-client";
 import Loader from "../../components/Loader";
 import Layout from "../../components/Layout";
+import Pagination from "../../components/Pagination";
 
 function MainPage() {
   const [data, setData] = useState([]);
@@ -28,34 +29,43 @@ function MainPage() {
   const filteredData = useMemo(() => {
     const startIndex = (page - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
-    debugger;
     return data.slice(startIndex, endIndex);
+  }, [page, data]);
+  const allPagesCount = useMemo(() => {
+    return Math.trunc(data?.length / ITEMS_PER_PAGE);
   }, [page, data]);
 
   console.log(filteredData, "filteredData");
   return (
     <Layout>
-      <main className=" text-center">
+      <main className="text-center">
         <ul>
           <div className="">
-            <h1 className="text-xl text-grey-500">Курс валют НБУ</h1>
+            <h1 className="text-xl text-yellow-500 font-semibold">
+              Курс валют НБУ
+            </h1>
           </div>
           {loading && <Loader />}
-          <div>
+          <div className="flex flex-wrap items-center py-8">
             {filteredData.map(({ r030, txt, cc, rate }) => (
               <Link
                 key={r030}
                 to={`/currency/${r030}`}
-                className="block py-2 border-b"
+                className="w-[100%] md:w-[50%] block text-xl py-2"
               >
-                <p className="text-blue-500">{txt}</p>
-                <p className="text-yellow-500">
+                <p className="text-blue-500 font-semibold">{txt}</p>
+                <p className="text-yellow-500 font-bold">
                   {rate.toFixed(2)}грн. - {cc}
                 </p>
               </Link>
             ))}
           </div>
         </ul>
+        <Pagination
+          currentPage={page}
+          allPages={allPagesCount}
+          allDataLength={data?.length}
+        />
       </main>
     </Layout>
   );
