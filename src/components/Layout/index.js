@@ -1,26 +1,25 @@
 import React from "react";
-import Link from "react-dom";
-
-import styles from "./styles.scss";
+import { Link } from "react-router-dom";
 
 function Layout({ children, isPending, navigate }) {
   return (
-    <div className={styles.wrapper}>
+    <div className="margin-auto pb-4">
       <header
-        className="m-w-[50%]"
+        className=" max-w-[50%] m-auto my-4"
         style={{
           opacity: isPending ? 0.7 : 1,
+          width: "fit-content",
         }}
       >
-        <ul>
+        <ul className="flex gap-4 text-center">
           <li>
-            <a onClick={() => navigate("/")}>Головна</a>
+            <Link to="/">Головна</Link>
           </li>
           <li>
-            <a onClick={() => navigate("/сhanged-currencies")}>Змінені курси</a>
+            <Link to="/changed">Змінені курси</Link>
           </li>
           <li>
-            <a onClick={() => navigate("/search")}>Пошук курсу</a>
+            <Link to="/search">Пошук курсу</Link>
           </li>
         </ul>
       </header>
