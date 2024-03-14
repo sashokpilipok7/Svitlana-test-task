@@ -7,6 +7,7 @@ import ApiClient from "../../utils/api-client";
 import Loader from "../../components/Loader";
 import Layout from "../../components/Layout";
 import Pagination from "../../components/Pagination";
+import CurrencyCard from "../../components/CurrencyCard";
 
 function MainPage() {
   const [data, setData] = useState([]);
@@ -63,17 +64,8 @@ function MainPage() {
           </div>
           {loading && <Loader />}
           <div className="flex flex-wrap items-center py-8">
-            {filteredData.map(({ r030, txt, rate }) => (
-              <Link
-                key={r030}
-                to={`/currency/${r030}`}
-                className="w-[100%] md:w-[50%] block text-xl py-2"
-              >
-                <p className="text-blue-500 font-semibold">{txt}</p>
-                <p className="text-yellow-500 font-bold">
-                  {rate.toFixed(2)}грн.
-                </p>
-              </Link>
+            {filteredData.map((currency) => (
+              <CurrencyCard data={currency} />
             ))}
           </div>
         </ul>

@@ -6,7 +6,7 @@ export class ApiClient {
   constructor() {
     this.baseUrl = process.env.API_URL;
     this.baseUrl =
-      "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json";
+      "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json"; // FIXME: move to .env
   }
 
   _request({ method, url, data, config = {} }) {
@@ -33,7 +33,7 @@ export class ApiClient {
           }
         })
         .catch((err) => {
-          //   toast.error(err);
+          //   toast.error(err); FIXME
           reject(err);
         });
     });
@@ -49,4 +49,5 @@ export class ApiClient {
   }
 }
 
-export default new ApiClient();
+const singletonApiClient = new ApiClient();
+export default singletonApiClient;
