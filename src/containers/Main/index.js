@@ -9,20 +9,39 @@ import Layout from "../../components/Layout";
 import Pagination from "../../components/Pagination";
 import CurrencyCard from "../../components/CurrencyCard";
 
+const mockedData = [
+  // Add react context instead
+  {
+    r030: "111",
+    txt: "First currency",
+    rate: 38.1,
+  },
+  {
+    r030: "222",
+    txt: "First currency 2",
+    rate: 38.2,
+  },
+  {
+    r030: "333",
+    txt: "First currency 3",
+    rate: 38.3,
+  },
+];
+
 function MainPage() {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(mockedData); //FIXME
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    async function getData() {
-      setLoading(true);
-      let data = await ApiClient.get("");
-      console.log(data, "data");
-      setLoading(false);
-      setData(data);
-    }
-    getData();
-  }, []);
+  // useEffect(() => { //FIXME
+  //   async function getData() {
+  //     setLoading(true);
+  //     let data = await ApiClient.get("");
+  //     console.log(data, "data");
+  //     setLoading(false);
+  //     setData(data);
+  //   }
+  //   getData();
+  // }, []);
 
   const location = useLocation();
   const [page, setPage] = useState(getQuery(location, "page") || 1);

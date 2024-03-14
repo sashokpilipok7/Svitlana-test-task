@@ -1,10 +1,33 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useParams } from "react-router-dom";
 
 import Layout from "../../components/Layout";
+import CurrencyCard from "../../components/CurrencyCard";
+
+const mockedDataHashTable = {
+  // Add react context instead
+  111: {
+    r030: "111",
+    txt: "First currency",
+    rate: 38.1,
+  },
+  222: {
+    r030: "222",
+    txt: "First currency 2",
+    rate: 38.2,
+  },
+  333: {
+    r030: "333",
+    txt: "First currency 3",
+    rate: 38.3,
+  },
+};
 
 function CurrencyPage() {
   const { id } = useParams();
+  const data = useMemo(() => {
+    return mockedDataHashTable[id];
+  }, [id]);
   let content = null;
 
   if (isNaN(id)) {
@@ -14,10 +37,14 @@ function CurrencyPage() {
       </h1>
     );
   } else {
-    content = <div>Currency page</div>;
+    content = <CurrencyCard data={data} />;
   }
 
-  return <Layout>{content}</Layout>;
+  return (
+    <Layout className="text-center flex flex-col items-center">
+      {content}
+    </Layout>
+  );
 }
 
 export default CurrencyPage;

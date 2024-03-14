@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function Layout({ children, isPending, navigate }) {
+function Layout({ children, isPending, navigate, className }) {
   return (
     <div className="margin-auto pb-4">
       <header
@@ -28,7 +28,7 @@ function Layout({ children, isPending, navigate }) {
           </li>
         </ul>
       </header>
-      <main>{children}</main>
+      <main className={className}>{children}</main>
     </div>
   );
 }
