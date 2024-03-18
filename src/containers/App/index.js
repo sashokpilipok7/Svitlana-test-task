@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import { ITEMS_PER_PAGE } from "../../constants/index.js";
-import { ApiClient } from "../../utils/api-client/index.js";
+import ApiClient from "../../utils/api-client";
 import { getQuery } from "../../utils/get-query/index.js";
 
 import MainPage from "../Main/index.js";
@@ -11,29 +11,11 @@ import ChangedCurrencyPage from "../ChangedCurrency/index.js";
 import CurrencyPage from "../Currency/index.js";
 import SearchPage from "../Search/index.js";
 
-const mockedData = [
-  //FIXME: remove mocked data after ending
-  {
-    r030: "111",
-    txt: "First currency",
-    rate: 38.1,
-  },
-  {
-    r030: "222",
-    txt: "First currency 2",
-    rate: 38.2,
-  },
-  {
-    r030: "333",
-    txt: "First currency 3",
-    rate: 38.3,
-  },
-];
-
 export const CurrencyContext = createContext({
   isLoading: false,
   page: 1,
   data: [],
+  dataHashTable: {},
   allPagesCount: 0,
   onNextPage: () => {},
   onPrevPage: () => {},
@@ -43,14 +25,19 @@ export const CurrencyContext = createContext({
 
 export default function App() {
   const [data, setData] = useState([]);
+  const [dataHashTable, setDataHashTable] = useState({});
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     async function getData() {
       setLoading(true);
       let data = await ApiClient.get("");
-      console.log(data, "data"); //FIXME: remove trash
       setLoading(false);
+
+      const hashedData = {};
+      data.map((item) => (hashedData[item.r030] = item));
+
+      setDataHashTable(hashedData);
       setData(data);
     }
     getData();
@@ -85,25 +72,24 @@ export default function App() {
   }
   return (
     <CurrencyContext.Provider
-      data={filteredData}
-      isLoading={loading}
-      page={page}
-      allPagesCount={allPagesCount}
-      onNext={onNext}
-      onPrev={onPrev}
-      onSpecificPage={onSpecificPage}
-      changeCurrency={() => {
-        console.log("Currency was changed!");
+      value={{
+        data: filteredData,
+        dataHashTable,
+        isLoading: loading,
+        page,
+        allPagesCount,
+        onNext,
+        onPrev,
+        onSpecificPage,
+        changeCurrency: () => console.log("Currency was changed!"),
       }}
     >
-      <Router>
-        <Routes>
-          <Route exact path="/" element={<MainPage />} />
-          <Route path="/search" element={<SearchPage />} />
-          <Route path="/changed" element={<ChangedCurrencyPage />} />
-          <Route path="/currency/:id" element={<CurrencyPage />} />
-        </Routes>
-      </Router>
+      <Routes>
+        <Route exact path="/" element={<MainPage />} />
+        <Route path="/search" element={<SearchPage />} />
+        <Route path="/changed" element={<ChangedCurrencyPage />} />
+        <Route path="/currency/:id" element={<CurrencyPage />} />
+      </Routes>
     </CurrencyContext.Provider>
   );
 }

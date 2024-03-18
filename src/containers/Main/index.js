@@ -13,6 +13,7 @@ import Pagination from "../../components/Pagination";
 import CurrencyCard from "../../components/CurrencyCard";
 
 function MainPage() {
+  //FIXME: remove trash
   // const [data, setData] = useState([]);
   // const [loading, setLoading] = useState(false);
 
@@ -65,7 +66,6 @@ function MainPage() {
     onSpecificPage,
   } = useContext(CurrencyContext);
 
-  console.log(data, "data");
   return (
     <Layout>
       <main className="text-center pb-10">
