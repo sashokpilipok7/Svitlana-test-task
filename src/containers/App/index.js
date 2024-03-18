@@ -20,7 +20,6 @@ export const CurrencyContext = createContext({
   onNextPage: () => {},
   onPrevPage: () => {},
   onSpecificPage: () => {},
-  changeCurrency: () => {},
 });
 
 export default function App() {

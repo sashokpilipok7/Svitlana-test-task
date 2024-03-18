@@ -1,6 +1,11 @@
 import React, { useMemo, useContext } from "react";
 import { useParams } from "react-router-dom";
 
+import {
+  getChangedCurrencies,
+  setNewCurrency,
+} from "../../utils/edit-currency";
+
 import { CurrencyContext } from "../App";
 import Layout from "../../components/Layout";
 import CurrencyCard from "../../components/CurrencyCard";
@@ -30,8 +35,8 @@ function CurrencyPage() {
       <h3 className=" text-gray-500">Prev value:</h3>
       {content}
       <br />
-      <h3 className=" text-gray-500">Changed value:</h3>
-      <CurrencyCard data={data} />
+      <h3 className=" text-gray-500">New value:</h3>
+      <CurrencyCard isEditing data={data} />
     </Layout>
   );
 }

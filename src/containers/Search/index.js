@@ -29,7 +29,7 @@ function SearchPage() {
           {isLoading && <Loader />}
           <div className="flex flex-wrap items-center py-8">
             {data.map((currency) => (
-              <CurrencyCard data={currency} />
+              <CurrencyCard key={currency.r030} data={currency} />
             ))}
           </div>
         </ul>
