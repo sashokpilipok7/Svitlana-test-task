@@ -1,4 +1,5 @@
-import React, { useContext } from "react";
+import React, { useContext, useMemo } from "react";
+import { useForm } from "react-hook-form";
 
 import { searchByName } from "../../utils/search";
 import { CurrencyContext } from "../App";
@@ -11,6 +12,7 @@ import Pagination from "../../components/Pagination";
 function SearchPage() {
   const {
     data,
+    wholeData,
     isLoading,
     page,
     allPagesCount,
@@ -19,20 +21,18 @@ function SearchPage() {
     onSpecificPage,
   } = useContext(CurrencyContext);
 
-  // FIXEM: change condition to input or query value
-  const searchedData = data
-    ? searchByName(data, "долар")
-    : searchByName(data, "Канадський долар");
+  const { register, watch } = useForm();
 
-  console.log(searchedData, "searchedData");
-  console.log(data, "data");
+  const searchValue = watch("txt");
+  const searchedData = searchByName(wholeData, searchValue);
+
   return (
     <Layout>
       <main className="text-center pb-10">
         <ul>
           <div className="flex flex-row justify-center gap-4">
             <input
-              name="txt"
+              {...register("txt")}
               type="text"
               className=" border-blue-500 bordered"
             />

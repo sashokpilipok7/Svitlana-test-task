@@ -74,6 +74,7 @@ export default function App() {
   return (
     <CurrencyContext.Provider
       value={{
+        wholeData: data,
         data: filteredData,
         dataHashTable,
         isLoading: loading,
