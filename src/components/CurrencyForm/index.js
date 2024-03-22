@@ -1,18 +1,15 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 
-import {
-  getChangedCurrencies,
-  setNewCurrency,
-} from "../../utils/edit-currency"; // FIXME: to other route
+import { setNewCurrency } from "../../utils/edit-currency";
 
 function CurrencyForm({ data: { r030, txt, rate } = {} }) {
   const { register, handleSubmit } = useForm();
 
   const onSubmit = (data) => {
+    console.log(data, "data");
     const { txt, rate } = data;
     setNewCurrency({ r030, txt, rate });
-    console.log("Form data:", data);
   };
 
   return (
