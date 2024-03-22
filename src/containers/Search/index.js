@@ -20,8 +20,12 @@ function SearchPage() {
   } = useContext(CurrencyContext);
 
   // FIXEM: change condition to input or query value
-  const searchedData = data ? searchByName(data, "") : searchByName(data, "");
+  const searchedData = data
+    ? searchByName(data, "долар")
+    : searchByName(data, "Канадський долар");
 
+  console.log(searchedData, "searchedData");
+  console.log(data, "data");
   return (
     <Layout>
       <main className="text-center pb-10">
