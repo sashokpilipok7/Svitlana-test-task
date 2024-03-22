@@ -83,7 +83,9 @@ export default function App() {
         onNext,
         onPrev,
         onSpecificPage,
-        changeCurrency: () => console.log("Currency was changed!"),
+        setData,
+        setDataHashTable,
+        setLoading,
       }}
     >
       <Routes>
