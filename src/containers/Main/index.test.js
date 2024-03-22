@@ -1,8 +1,8 @@
 import { render, screen } from "@testing-library/react";
-import App from "./index";
+import Main from "./index";
 
 test("renders app container", () => {
-  render(<App />);
-  const linkElement = screen.getByText(/Hello, Tailwind CSS!/i);
+  render(<Main />);
+  const linkElement = screen.getByText(/Курс валют згідно НБУ/i);
   expect(linkElement).toBeInTheDocument();
 });
