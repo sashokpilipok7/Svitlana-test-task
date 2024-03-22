@@ -24,36 +24,44 @@ function SearchPage() {
   const { register, watch } = useForm();
 
   const searchValue = watch("txt");
-  const searchedData = searchByName(wholeData, searchValue);
+  const searchedData = !searchValue
+    ? data
+    : searchByName(wholeData, searchValue);
+  console.log(searchedData, "searchedData");
+  console.log(wholeData, data);
 
   return (
     <Layout>
-      <main className="text-center pb-10">
-        <ul>
-          <div className="flex flex-row justify-center gap-4">
-            <input
-              {...register("txt")}
-              type="text"
-              className=" border-blue-500 bordered"
-            />
-            <input type="date" className=" border-blue-500 bordered" />
-          </div>
-          {isLoading && <Loader />}
-          <div className="flex flex-wrap items-center py-8">
-            {searchedData.map((currency) => (
-              <CurrencyCard key={currency.r030} data={currency} />
-            ))}
-          </div>
-        </ul>
-        <Pagination
-          currentPage={page}
-          allPages={allPagesCount}
-          allDataLength={data?.length}
-          onNext={onNextPage}
-          onPrev={onPrevPage}
-          onSpecificPage={onSpecificPage}
-        />
-      </main>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <main className="text-center pb-10">
+          <ul>
+            <div className="flex flex-row justify-center gap-4">
+              <input
+                {...register("txt")}
+                type="text"
+                className=" border-blue-500 bordered"
+              />
+              <input type="date" className=" border-blue-500 bordered" />
+            </div>
+            {isLoading && <Loader />}
+            <div className="flex flex-wrap items-center py-8">
+              {searchedData.map((currency) => (
+                <CurrencyCard key={currency.r030} data={currency} />
+              ))}
+            </div>
+          </ul>
+          <Pagination
+            currentPage={page}
+            allPages={allPagesCount}
+            allDataLength={data?.length}
+            onNext={onNextPage}
+            onPrev={onPrevPage}
+            onSpecificPage={onSpecificPage}
+          />
+        </main>
+      )}
     </Layout>
   );
 }

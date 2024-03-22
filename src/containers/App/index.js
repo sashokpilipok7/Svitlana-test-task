@@ -11,7 +11,7 @@ import ChangedCurrencyPage from "../ChangedCurrency/index.js";
 import CurrencyPage from "../Currency/index.js";
 import SearchPage from "../Search/index.js";
 
-// FIXME: have to do, Pagination, search logic
+// FIXME: have to do, Pagination
 
 export const CurrencyContext = createContext({
   isLoading: false,
