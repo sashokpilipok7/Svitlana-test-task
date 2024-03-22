@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 
+import { searchByName } from "../../utils/search";
 import { CurrencyContext } from "../App";
 
 import Loader from "../../components/Loader";
@@ -18,17 +19,24 @@ function SearchPage() {
     onSpecificPage,
   } = useContext(CurrencyContext);
 
+  // FIXEM: change condition to input or query value
+  const searchedData = data ? searchByName(data, "") : searchByName(data, "");
+
   return (
     <Layout>
       <main className="text-center pb-10">
         <ul>
           <div className="flex flex-row justify-center gap-4">
-            <input type="text" className=" border-blue-500 bordered" />
+            <input
+              name="txt"
+              type="text"
+              className=" border-blue-500 bordered"
+            />
             <input type="date" className=" border-blue-500 bordered" />
           </div>
           {isLoading && <Loader />}
           <div className="flex flex-wrap items-center py-8">
-            {data.map((currency) => (
+            {searchedData.map((currency) => (
               <CurrencyCard key={currency.r030} data={currency} />
             ))}
           </div>
