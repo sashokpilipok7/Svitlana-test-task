@@ -1,23 +1,5 @@
 const CHANGED_CURRENCY_FIELD = "CHANGED-CURRENCIES";
 
-// export function formatUniqueData(data, newData) {
-//   const formattedData = [...data];
-//   let existingItem;
-
-//   debugger;
-//   formattedData.forEach((item) => {
-//     existingItem = newData?.r030 === item?.r030;
-//   });
-
-//   if (existingItem) {
-//     Object.assign(existingItem, newData);
-//   } else {
-//     formattedData.push(newData);
-//   }
-//   debugger;
-//   return formattedData;
-// }
-
 export function formatUniqueData(data, newData) {
   const formattedData = [...data];
 

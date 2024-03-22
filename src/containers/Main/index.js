@@ -1,10 +1,9 @@
-// import { useEffect, useState, useMemo } from "react"; //FIXME: remove trash
-// import { Link, useLocation } from "react-router-dom";
-
-// import { ITEMS_PER_PAGE } from "../../constants";
-// import { getQuery } from "../../utils/get-query";
-// import ApiClient from "../../utils/api-client";
 import { useContext } from "react";
+import { useState, useMemo } from "react";
+import { useLocation } from "react-router-dom";
+
+import { ITEMS_PER_PAGE } from "../../constants/index.js";
+import { getQuery } from "../../utils/get-query/index.js";
 
 import { CurrencyContext } from "../App";
 import Loader from "../../components/Loader";
@@ -13,58 +12,35 @@ import Pagination from "../../components/Pagination";
 import CurrencyCard from "../../components/CurrencyCard";
 
 function MainPage() {
-  //FIXME: remove trash
-  // const [data, setData] = useState([]);
-  // const [loading, setLoading] = useState(false);
+  const { data, isLoading } = useContext(CurrencyContext);
 
-  // useEffect(() => {
-  //   async function getData() {
-  //     setLoading(true);
-  //     let data = await ApiClient.get("");
-  //     console.log(data, "data");
-  //     setLoading(false);
-  //     setData(data);
-  //   }
-  //   getData();
-  // }, []);
+  const location = useLocation();
+  const [page, setPage] = useState(getQuery(location, "page") || 1);
 
-  // const location = useLocation();
-  // const [page, setPage] = useState(getQuery(location, "page") || 1);
+  const filteredData = useMemo(() => {
+    const startIndex = (page - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+    return data.slice(startIndex, endIndex);
+  }, [page, data]);
+  const allPagesCount = useMemo(() => {
+    return Math.ceil(data?.length / ITEMS_PER_PAGE);
+  }, [data]);
 
-  // const data = useMemo(() => {
-  //   const startIndex = (page - 1) * ITEMS_PER_PAGE;
-  //   const endIndex = startIndex + ITEMS_PER_PAGE;
-  //   return data.slice(startIndex, endIndex);
-  // }, [page, data]);
-  // const allPagesCount = useMemo(() => {
-  //   return Math.ceil(data?.length / ITEMS_PER_PAGE);
-  // }, [page, data]);
+  function onNext() {
+    if (page !== allPagesCount) {
+      setPage(page + 1);
+    }
+  }
 
-  // function onNext() {
-  //   if (page !== allPagesCount) {
-  //     setPage(page + 1);
-  //   }
-  // }
+  function onPrev() {
+    if (page !== 1) {
+      setPage(page - 1);
+    }
+  }
 
-  // function onPrev() {
-  //   if (page !== 1) {
-  //     setPage(page - 1);
-  //   }
-  // }
-
-  // function onSpecificPage(pageNumber) {
-  //   setPage(pageNumber);
-  // }
-
-  const {
-    data,
-    isLoading,
-    page,
-    allPagesCount,
-    onNextPage,
-    onPrevPage,
-    onSpecificPage,
-  } = useContext(CurrencyContext);
+  function onSpecificPage(pageNumber) {
+    setPage(pageNumber);
+  }
 
   return (
     <Layout>
@@ -77,7 +53,7 @@ function MainPage() {
           </div>
           {isLoading && <Loader />}
           <div className="flex flex-wrap items-center py-8">
-            {data.map((currency) => (
+            {filteredData.map((currency) => (
               <CurrencyCard key={currency.r030} data={currency} />
             ))}
           </div>
@@ -86,8 +62,8 @@ function MainPage() {
           currentPage={page}
           allPages={allPagesCount}
           allDataLength={data?.length}
-          onNext={onNextPage}
-          onPrev={onPrevPage}
+          onNext={onNext}
+          onPrev={onPrev}
           onSpecificPage={onSpecificPage}
         />
       </main>
