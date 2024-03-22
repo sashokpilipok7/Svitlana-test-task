@@ -1,11 +1,6 @@
 import React, { useMemo, useContext } from "react";
 import { useParams } from "react-router-dom";
 
-import {
-  getChangedCurrencies,
-  setNewCurrency,
-} from "../../utils/edit-currency"; // FIXME: to other route
-
 import Loader from "../../components/Loader";
 import { CurrencyContext } from "../App";
 import Layout from "../../components/Layout";
@@ -38,7 +33,7 @@ function CurrencyPage() {
         <Loader />
       ) : (
         <>
-          <h3 className=" text-gray-500">Prev value:</h3>
+          <h3 className=" text-gray-500">Api value:</h3>
           {content}
           <br />
           <h3 className=" text-gray-500">New value:</h3>

@@ -1,11 +1,17 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 
+import {
+  getChangedCurrencies,
+  setNewCurrency,
+} from "../../utils/edit-currency"; // FIXME: to other route
+
 function CurrencyForm({ data: { r030, txt, rate } = {} }) {
   const { register, handleSubmit } = useForm();
 
   const onSubmit = (data) => {
-    debugger;
+    const { txt, rate } = data;
+    setNewCurrency({ r030, txt, rate });
     console.log("Form data:", data);
   };
 
@@ -24,19 +30,15 @@ function CurrencyForm({ data: { r030, txt, rate } = {} }) {
           className="text-blue-500 font-semibold text-center"
           placeholder={txt}
           required
-          {...register("name")}
+          {...register("txt")}
         />
         <input
           className="text-yellow-500 font-bold text-center"
           type="number"
           required
           placeholder={rate?.toFixed(2)}
-          {...register("cost")}
+          {...register("rate")}
         />
-        {/* <input
-        className=" cursor-pointer mt-2 border-2 border-gray-300 hover:bg-gray-300 hover:text-white"
-        type="submit"
-      /> */}
         <input
           className="mt-2 border-2 border-gray-300 hover:bg-gray-300 hover:text-white cursor-pointer"
           type="submit"
